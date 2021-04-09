@@ -1,0 +1,3 @@
+# zentyal
+
+Zentyal configuration files.
