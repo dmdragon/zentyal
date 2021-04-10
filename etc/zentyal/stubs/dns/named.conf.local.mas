@@ -91,14 +91,14 @@ view "<% $src %>" {
                 file "/etc/bind/db.255";
         };
 
-% if (defined $sambaZones and scalar @{$sambaZones}) {
+%   if (defined $sambaZones and scalar @{$sambaZones}) {
         dlz "AD DNS Zone" {
             database "dlopen /usr/lib/x86_64-linux-gnu/samba/bind9/dlz_bind9_11.so";
         };
-% }
+%   }
 
-% foreach my $dom (@domains) {
-%   next if (defined $sambaZones and
+%   foreach my $dom (@domains) {
+%       next if (defined $sambaZones and
 %            lc ($dom->{name}) eq any @{$sambaZones});
         zone "<% $dom->{name} %>." IN {
             type master;
@@ -116,12 +116,12 @@ view "<% $src %>" {
             };
 %       }
         };
-% }
+%   }
 
-% if ($generateReverseZones) {
-%   foreach my $inaddr (@inaddrs) {
-%       my $zoneName = $inaddr->{'ip'} . ".in-addr.arpa";
-%       next if (defined $sambaZones and
+%   if ($generateReverseZones) {
+%       foreach my $inaddr (@inaddrs) {
+%           my $zoneName = $inaddr->{'ip'} . ".in-addr.arpa";
+%           next if (defined $sambaZones and
 %                lc ($zoneName) eq any @{$sambaZones});
 
         zone "<% $zoneName %>" {
@@ -129,23 +129,23 @@ view "<% $src %>" {
             file "<% $inaddr->{'file'} %>";
             update-policy {
                 // The only allowed dynamic updates are PTR records
-%       foreach my $keyName (@{$inaddr->{'keyNames'}}) {
+%           foreach my $keyName (@{$inaddr->{'keyNames'}}) {
                 grant <% $keyName %>. subdomain <% $inaddr->{'ip'} %>.in-addr.arpa. PTR TXT;
-%       }
+%           }
                 // Grant from localhost
                 grant local-ddns zonesub any;
             };
         };
-%   }
+%       }
 
-%   foreach my $zoneName (@{$rfc1918Zones}) {
-%       next if (defined $sambaZones and
+%       foreach my $zoneName (@{$rfc1918Zones}) {
+%           next if (defined $sambaZones and
 %                lc ($zoneName) eq any @{$sambaZones});
         zone "<% $zoneName %>" {
             type master;
             file "/etc/bind/db.empty";
         };
+%       }
 %   }
-% }
 };
 % }
