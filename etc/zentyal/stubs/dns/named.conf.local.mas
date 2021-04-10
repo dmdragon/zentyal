@@ -119,23 +119,25 @@ view "<% $src %>" {
 %   }
 
 %   if ($generateReverseZones) {
-%       foreach my $inaddr (@inaddrs) {
-%           my $zoneName = $inaddr->{'ip'} . ".in-addr.arpa";
-%           next if (defined $sambaZones and
-%                lc ($zoneName) eq any @{$sambaZones});
+%       if ($src eq 'internal') {
+%           foreach my $inaddr (@inaddrs) {
+%               my $zoneName = $inaddr->{'ip'} . ".in-addr.arpa";
+%               next if (defined $sambaZones and
+%                   lc ($zoneName) eq any @{$sambaZones});
 
         zone "<% $zoneName %>" {
             type master;
             file "<% $inaddr->{'file'} %>";
             update-policy {
                 // The only allowed dynamic updates are PTR records
-%           foreach my $keyName (@{$inaddr->{'keyNames'}}) {
+%               foreach my $keyName (@{$inaddr->{'keyNames'}}) {
                 grant <% $keyName %>. subdomain <% $inaddr->{'ip'} %>.in-addr.arpa. PTR TXT;
-%           }
+%               }
                 // Grant from localhost
                 grant local-ddns zonesub any;
             };
         };
+%           }
 %       }
 
 %       foreach my $zoneName (@{$rfc1918Zones}) {
