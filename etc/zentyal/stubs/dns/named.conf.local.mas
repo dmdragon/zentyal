@@ -57,7 +57,7 @@ view "<% $src %>" {
             trusted;
             internal-local-nets;
         };
-%   } else {
+%   } elsif ($src eq 'external') {
         match-clients { any; };
 %   }
 
