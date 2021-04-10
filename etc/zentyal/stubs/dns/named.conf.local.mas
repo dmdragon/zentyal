@@ -49,9 +49,18 @@ acl "internal-local-nets" {
 % }
 };
 
-view "external" {
+% foreach my $src ('internal', 'external') {
+view "<% $src %>" {
 
+%   if ($src eq 'internal') {
+        match-clients {
+%       foreach my $net (@internalLocalNets) {
+                <% $net %>;
+%       }            
+        };
+%   } else {
         match-clients { any; };
+%   }
 
         // prime the server with knowledge of the root servers
         zone "." {
@@ -139,3 +148,4 @@ view "external" {
 %   }
 % }
 };
+% }
