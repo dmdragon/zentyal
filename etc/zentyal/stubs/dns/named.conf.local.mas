@@ -54,9 +54,8 @@ view "<% $src %>" {
 
 %   if ($src eq 'internal') {
         match-clients {
-%       foreach my $net (@internalLocalNets) {
-                <% $net %>;
-%       }            
+            trusted;
+            internal-local-nets;
         };
 %   } else {
         match-clients { any; };
