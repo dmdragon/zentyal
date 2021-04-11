@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### .SYNOPSIS
-###     Copying a file from the repository
+###     Copy a file from the repository
 ###
 ### .DESCRIPTION
 ###     Clone from the git repository and copy a specified file in it to path.
