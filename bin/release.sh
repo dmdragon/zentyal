@@ -63,4 +63,5 @@ else
     if [ -z $file ]; then
         echo No path.
     fi
+    usage
 fi
