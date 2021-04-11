@@ -38,18 +38,22 @@ if [ $repo ] && [ $file ]; then
         pushd $temp_dir
         git clone $repo
         cd $(basename $repo .git)
-        bak=~/$(basename ${file}).bak
-        if [ -f /$file ]; then
-            cp /$file $bak
-        fi
-        if [ -f /$file ] && [ -f $bak ] || [ ! -f /$file ]; then
-            sudo mkdir -p $(dirname /${file})
-            sudo cp $file /$file
-        elif [ ! -f $bak ]; then
-            echo No backup exists.
-        fi
-        if [ ! -f /$file ]; then
-            echo Could not copy /${file}.
+        if [ -f $file ]; then
+            bak=~/$(basename ${file}).bak
+            if [ -f /$file ]; then
+                cp /$file $bak
+            fi
+            if [ -f /$file ] && [ -f $bak ] || [ ! -f /$file ]; then
+                sudo mkdir -p $(dirname /${file})
+                sudo cp $file /$file
+            elif [ ! -f $bak ]; then
+                echo No backup exists.
+            fi
+            if [ ! -f /$file ]; then
+                echo Could not copy /${file}.
+            fi
+        elif
+            echo No $file exists.
         fi
         popd
         rm -rf $temp_dir
