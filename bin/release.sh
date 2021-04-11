@@ -52,7 +52,7 @@ if [ $repo ] && [ $file ]; then
             if [ ! -f /$file ]; then
                 echo Could not copy /${file}.
             fi
-        elif
+        else
             echo No $file exists.
         fi
         popd
