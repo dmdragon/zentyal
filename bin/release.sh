@@ -19,6 +19,12 @@ usage() {
     exit 1
 }
 
+out_error() {
+    echo
+    echo ERROR: $*
+    echo
+}
+
 while getopts r:p:h OPT; do
     case $OPT in
         r)  repo=$OPTARG
@@ -47,25 +53,27 @@ if [ $repo ] && [ $file ]; then
                 sudo mkdir -p $(dirname /${file})
                 sudo cp $file /$file
             elif [ ! -f $bak ]; then
-                echo No backup exists.
+                our_error No backup exists.
             fi
             if [ ! -f /$file ]; then
-                echo Could not copy /${file}.
+                out_error Could not copy /${file}.
             fi
         else
-            echo No $file exists.
+            out_error No $file exists.
         fi
         popd
         rm -rf $temp_dir
     else
-        echo Could not create temporary directory.
+        out_error Could not create temporary directory.
     fi
 else
+    echo
     if [ -z $repo ]; then
-        echo No repository.
+        echo ERROR: No repository.
     fi
     if [ -z $file ]; then
-        echo No path.
+        echo ERROR: No path.
     fi
+    echo
     usage
 fi
