@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sed -i -e "s/$(dnsdomainname)-external/$(dnsdomainname)/g" /etc/bind/db.$(dnsdomainname)-external
