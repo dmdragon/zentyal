@@ -1,3 +1,4 @@
 #!/bin/bash
 
-sed -i -e "s/$(dnsdomainname)-external/$(dnsdomainname)/g" /etc/bind/db.$(dnsdomainname)-external
+domain=$(dnsdomainname)
+sed -i -e "s/${domain}-external/${domain}/g" /etc/bind/db.${domain}-external
