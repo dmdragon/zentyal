@@ -125,7 +125,7 @@ view "<% $src %>" {
                 grant local-ddns zonesub any;
             };
 %           }
-%           if ($src eq 'external' && my $c = @secondary) {
+%           if ($src eq 'external' && (my $c = @secondary)) {
             allow-transfer {
 %               foreach my $sec (@secondary) {
                 <% $sec %>;
