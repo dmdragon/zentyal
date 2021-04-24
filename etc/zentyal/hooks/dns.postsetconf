@@ -2,5 +2,3 @@
 
 domain=$(dnsdomainname)
 sed -i -e "s/${domain}-external/${domain}/g" /etc/bind/db.${domain}-external
-
-sed -i -e "s/{{DNS_SECONDARY_SERVER}}/${DNS_SECONDARY_SERVER}/g" /etc/zentyal/stubs/dns/named.conf.local.mas

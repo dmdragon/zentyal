@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sed -i -e "s/{{DNS_SECONDARY_SERVER}}/${DNS_SECONDARY_SERVER}/g" /etc/zentyal/stubs/dns/named.conf.local.mas
