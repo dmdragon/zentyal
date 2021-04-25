@@ -104,17 +104,17 @@ view "<% $src %>" {
 %                lc ($dom->{name}) eq any @{$sambaZones});
         zone "<% $dom->{name} %>." IN {
             type master;
-%           if ($src eq 'external') {
-%               if ($dom->{dynamic}) {
-            file "<% $dynamicConfDir %>/db.<% $dom->{'name'} %>-<% $src %>";
-%               } else {
-            file "<% $confDir %>/db.<% $dom->{'name'} %>-<% $src %>";
-%               }
-%           } else {
+%           if ($src eq 'internal') {
 %               if ($dom->{dynamic}) {
             file "<% $dynamicConfDir %>/db.<% $dom->{'name'} %>";
 %               } else {
             file "<% $confDir %>/db.<% $dom->{'name'} %>";
+%               }
+%           } elsif ($src eq 'external') {
+%               if ($dom->{dynamic}) {
+            file "<% $dynamicConfDir %>/db.<% $dom->{'name'} %>-<% $src %>";
+%               } else {
+            file "<% $confDir %>/db.<% $dom->{'name'} %>-<% $src %>";
 %               }
 %           }
 %           if ($dom->{dynamic}) {
