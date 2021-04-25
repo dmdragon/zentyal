@@ -147,19 +147,22 @@ view "<% $src %>" {
 %               my $zoneName = $inaddr->{'ip'} . ".in-addr.arpa";
 %               next if (defined $sambaZones and
 %                   lc ($zoneName) eq any @{$sambaZones});
+%               if (qr/-external$/ != any @{$inaddr->{'keyNames'}}) {
 
         zone "<% $zoneName %>" {
             type master;
             file "<% $inaddr->{'file'} %>";
             update-policy {
                 // The only allowed dynamic updates are PTR records
-%               foreach my $keyName (@{$inaddr->{'keyNames'}}) {
+%                   foreach my $keyName (@{$inaddr->{'keyNames'}}) {
+%                       next if ($keyName ＝~ /-external$/);
                 grant <% $keyName %>. subdomain <% $inaddr->{'ip'} %>.in-addr.arpa. PTR TXT;
-%               }
+%                   }
                 // Grant from localhost
                 grant local-ddns zonesub any;
             };
         };
+%               }
 %           }
 %       }
 
