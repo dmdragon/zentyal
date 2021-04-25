@@ -155,7 +155,7 @@ view "<% $src %>" {
             update-policy {
                 // The only allowed dynamic updates are PTR records
 %                   foreach my $keyName (@{$inaddr->{'keyNames'}}) {
-%                       next if ($keyName ＝~ /-external$/);
+%                       next if ($keyName =~ /-external$/);
                 grant <% $keyName %>. subdomain <% $inaddr->{'ip'} %>.in-addr.arpa. PTR TXT;
 %                   }
                 // Grant from localhost
