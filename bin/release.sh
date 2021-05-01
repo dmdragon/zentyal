@@ -1,18 +1,22 @@
 #!/bin/bash
 
-### .SYNOPSIS
-###     Copy a file from the repository
+### NAME
+###        release.sh - copy a file from the repository
 ###
-### .DESCRIPTION
-###     Clone from the git repository and copy a specified file in it to path.
+### SYNOPSIS
+###        release.sh -r repository -p path
 ###
-###     Use sudo to copy with administrative privileges.
+### DESCRIPTION
+###        Clone from the git repository and copy a specified file in it to path.
 ###
-### .PARAMETER r
-###     Repository
+###        Use sudo to copy with administrative privileges.
 ###
-### .PARAMETER p
-###     Relative path to a file in the repository
+### OPTIONS
+###        -r repository
+###               Specify the URL for the repoistory.
+###
+###        -p path
+###               Spacify the relative path to a file in the repository.
 
 usage() {
     echo "Usage: $0 -r <repository> -p <path>" 1>&2
@@ -53,7 +57,7 @@ if [ $repo ] && [ $file ]; then
                 sudo mkdir -p $(dirname /${file})
                 sudo cp $file /$file
             elif [ ! -f $bak ]; then
-                our_error No backup exists.
+                out_error No backup exists.
             fi
             if [ ! -f /$file ]; then
                 out_error Could not copy /${file}.
