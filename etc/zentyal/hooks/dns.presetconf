@@ -1,3 +1,9 @@
 #!/bin/bash
 
-sed -i -e "s/{{DNS_SECONDARY_SERVER}}/${DNS_SECONDARY_SERVER}/g" /etc/zentyal/stubs/dns/named.conf.local.mas
+mas=/etc/zentyal/stubs/dns/named.conf.local.mas
+key=/etc/bind/rndc.key
+key_id=$(grep "^key\b" $key | awk '{print $2}' | tr -d \")
+acme_host_name=_acme-challenge
+sed -i -e "s/{{DNS_SECONDARY_SERVER}}/${DNS_SECONDARY_SERVER}/g" $mas
+sed -i -e "s/{{KEY_ID}}/${key_id}/g" $mas
+sed -i -e "s/{{ACME_HOST_NAME}}/${acme_host_name}/g" $mas
