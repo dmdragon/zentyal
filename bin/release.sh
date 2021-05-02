@@ -4,22 +4,15 @@
 ###        release.sh - copy a file from the repository
 ###
 ### SYNOPSIS
-###        release.sh -r repository -p path
+###        release.sh <repository> <relative path> [<target_directory>]
 ###
 ### DESCRIPTION
 ###        Clone from the git repository and copy a specified file in it to path.
 ###
 ###        Use sudo to copy with administrative privileges.
-###
-### OPTIONS
-###        -r repository
-###               Specify the URL for the repoistory.
-###
-###        -p path
-###               Spacify the relative path to a file in the repository.
 
 usage() {
-    echo "Usage: $0 -r <repository> -p <path>" 1>&2
+    echo "Usage: $0 <repository> <relative path> [<target_directory>]" 1>&2
     exit 1
 }
 
@@ -29,55 +22,42 @@ out_error() {
     echo
 }
 
-while getopts r:p:h OPT; do
-    case $OPT in
-        r)  repo=$OPTARG
-            ;;
-        p)  file=$OPTARG
-            ;;
-        h)  usage
-            ;;
-        \?) usage
-            ;;
-    esac
-done
-
-if [ $repo ] && [ $file ]; then
+if [ $# -eq 2 ] || [ $# -eq 3 ] && [ $(basename $0) != $(basename $2) ] ; then
+    repo=$1
+    file=$2
+    root=$3
+    if [ $# -eq 2 ]; then root=/; fi
+    fullpath=$root$file
     temp_dir=$(mktemp -d)
     if [ -d $temp_dir ]; then
-        pushd $temp_dir
-        git clone $repo
+        pushd $temp_dir > /dev/null 2>&1
+        git clone -q $repo
         cd $(basename $repo .git)
         if [ -f $file ]; then
             bak=~/$(basename ${file}).bak
-            if [ -f /$file ]; then
-                cp /$file $bak
+            if [ -f $fullpath ]; then
+                cp $fullpath $bak
             fi
-            if [ -f /$file ] && [ -f $bak ] || [ ! -f /$file ]; then
-                sudo mkdir -p $(dirname /${file})
-                sudo cp $file /$file
+            if [ -f $fullpath ] && [ -f $bak ] || [ ! -f $fullpath ]; then
+                sudo mkdir -p $(dirname ${fullpath})
+                sudo cp $file $fullpath
             elif [ ! -f $bak ]; then
                 out_error No backup exists.
             fi
-            if [ ! -f /$file ]; then
-                out_error Could not copy /${file}.
+            if [ ! -f $fullpath ]; then
+                out_error Could not copy ${fullpath}.
             fi
         else
             out_error No $file exists.
         fi
-        popd
+        popd > /dev/null 2>&1
         rm -rf $temp_dir
     else
         out_error Could not create temporary directory.
     fi
+elif [ $(basename $0) = $(basename $2) ]; then
+    out_error Could not release $(basename $0).
 else
-    echo
-    if [ -z $repo ]; then
-        echo ERROR: No repository.
-    fi
-    if [ -z $file ]; then
-        echo ERROR: No path.
-    fi
-    echo
+    out_error Incorrect arguments.
     usage
 fi
