@@ -67,92 +67,92 @@ acl "internal-local-nets" {
 view "<% $src %>" {
 
 %   if ($src eq 'internal') {
-        match-clients {
-            trusted;
-            internal-local-nets;
-        };
+    match-clients {
+        trusted;
+        internal-local-nets;
+    };
 %   } elsif ($src eq 'external') {
-        match-clients { any; };
+    match-clients { any; };
 %       if ($letsencrypt) {
-        include "/etc/bind/rndc.key";
+    include "/etc/bind/rndc.key";
 %       } 
 %   }
 
-        // prime the server with knowledge of the root servers
-        zone "." {
-                type hint;
-                file "/etc/bind/db.root";
-        };
+    // prime the server with knowledge of the root servers
+    zone "." {
+            type hint;
+            file "/etc/bind/db.root";
+    };
 
-        // be authoritative for the localhost forward and reverse zones, and for
-        // broadcast zones as per RFC 1912
+    // be authoritative for the localhost forward and reverse zones, and for
+    // broadcast zones as per RFC 1912
 
-        zone "localhost" {
-                type master;
-                file "/etc/bind/db.local";
-        };
+    zone "localhost" {
+            type master;
+            file "/etc/bind/db.local";
+    };
 
-        zone "127.in-addr.arpa" {
-                type master;
-                file "/etc/bind/db.127";
-        };
+    zone "127.in-addr.arpa" {
+            type master;
+            file "/etc/bind/db.127";
+    };
 
-        zone "0.in-addr.arpa" {
-                type master;
-                file "/etc/bind/db.0";
-        };
+    zone "0.in-addr.arpa" {
+            type master;
+            file "/etc/bind/db.0";
+    };
 
-        zone "255.in-addr.arpa" {
-                type master;
-                file "/etc/bind/db.255";
-        };
+    zone "255.in-addr.arpa" {
+            type master;
+            file "/etc/bind/db.255";
+    };
 
 %   if (defined $sambaZones and scalar @{$sambaZones}) {
-        dlz "AD DNS Zone" {
-            database "dlopen /usr/lib/x86_64-linux-gnu/samba/bind9/dlz_bind9_11.so";
-        };
+    dlz "AD DNS Zone" {
+        database "dlopen /usr/lib/x86_64-linux-gnu/samba/bind9/dlz_bind9_11.so";
+    };
 %   }
 
 %   foreach my $dom (@domains) {
 %       if ($dom->{name} !~ /${suffix}$/) {
 %           next if (defined $sambaZones and
 %                lc ($dom->{name}) eq any @{$sambaZones});
-        zone "<% $dom->{name} %>." IN {
-            type master;
+    zone "<% $dom->{name} %>." IN {
+        type master;
 %           if ($src eq 'internal') {
 %               if ($dom->{dynamic}) {
-            file "<% $dynamicConfDir %>/db.<% $dom->{'name'} %>";
+        file "<% $dynamicConfDir %>/db.<% $dom->{'name'} %>";
 %               } else {
-            file "<% $confDir %>/db.<% $dom->{'name'} %>";
+        file "<% $confDir %>/db.<% $dom->{'name'} %>";
 %               }
 %           } elsif ($src eq 'external') {
 %               if ($dom->{dynamic}) {
-            file "<% $dynamicConfDir %>/db.<% $dom->{'name'} %>-<% $src %>";
+        file "<% $dynamicConfDir %>/db.<% $dom->{'name'} %>-<% $src %>";
 %               } else {
-            file "<% $confDir %>/db.<% $dom->{'name'} %>-<% $src %>";
+        file "<% $confDir %>/db.<% $dom->{'name'} %>-<% $src %>";
 %               }
 %           }
 %           if ($dom->{dynamic}) {
-            update-policy {
-                // The only allowed dynamic updates are A records
-                grant <% $dom->{'name'} %>. subdomain <% $dom->{'name'} %>. A TXT;
-                // Grant from localhost
-                grant local-ddns zonesub any;
-            };
+        update-policy {
+            // The only allowed dynamic updates are A records
+            grant <% $dom->{'name'} %>. subdomain <% $dom->{'name'} %>. A TXT;
+            // Grant from localhost
+            grant local-ddns zonesub any;
+        };
 %           }
 %           if ($src eq 'external' && $#secondary + 1) {
-            allow-transfer {
+        allow-transfer {
 %               foreach my $sec (@secondary) {
-                <% $sec %>;
+            <% $sec %>;
 %               }
-            };
-            also-notify {
-%               foreach my $sec (@secondary) {
-                <% $sec %>;
-%               }
-            };
-%           }
         };
+        also-notify {
+%               foreach my $sec (@secondary) {
+            <% $sec %>;
+%               }
+        };
+%           }
+    };
 %       }
 %   }
 
@@ -164,19 +164,19 @@ view "<% $src %>" {
 %                   lc ($zoneName) eq any @{$sambaZones});
 %               if (qr/${suffix}$/ != any @{$inaddr->{'keyNames'}}) {
 
-        zone "<% $zoneName %>" {
-            type master;
-            file "<% $inaddr->{'file'} %>";
-            update-policy {
-                // The only allowed dynamic updates are PTR records
+    zone "<% $zoneName %>" {
+        type master;
+        file "<% $inaddr->{'file'} %>";
+        update-policy {
+            // The only allowed dynamic updates are PTR records
 %                   foreach my $keyName (@{$inaddr->{'keyNames'}}) {
 %                       next if ($keyName =~ /${suffix}$/);
-                grant <% $keyName %>. subdomain <% $inaddr->{'ip'} %>.in-addr.arpa. PTR TXT;
+            grant <% $keyName %>. subdomain <% $inaddr->{'ip'} %>.in-addr.arpa. PTR TXT;
 %                   }
-                // Grant from localhost
-                grant local-ddns zonesub any;
-            };
+            // Grant from localhost
+            grant local-ddns zonesub any;
         };
+    };
 %               }
 %           }
 %       }
@@ -184,10 +184,10 @@ view "<% $src %>" {
 %       foreach my $zoneName (@{$rfc1918Zones}) {
 %           next if (defined $sambaZones and
 %                lc ($zoneName) eq any @{$sambaZones});
-        zone "<% $zoneName %>" {
-            type master;
-            file "/etc/bind/db.empty";
-        };
+    zone "<% $zoneName %>" {
+        type master;
+        file "/etc/bind/db.empty";
+    };
 %       }
 %   }
 };
