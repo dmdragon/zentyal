@@ -71,11 +71,11 @@ view "<% $src %>" {
             trusted;
             internal-local-nets;
         };
+%   } elsif ($src eq 'external') {
+        match-clients { any; };
 %       if ($letsencrypt) {
         include "/etc/bind/rndc.key";
 %       } 
-%   } elsif ($src eq 'external') {
-        match-clients { any; };
 %   }
 
         // prime the server with knowledge of the root servers
