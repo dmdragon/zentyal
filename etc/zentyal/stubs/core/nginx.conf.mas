@@ -115,7 +115,7 @@ http {
     server {
         listen <% $port %> ssl;
 
-% if (%letsencrypt) {
+% if ($letsencrypt) {
         ssl_certificate <% $letsencryptlivedir %>><% $domain %>/fullchain.pem;
         ssl_certificate_key <% $letsencryptlivedir %><% $domain %>/privkey.pem;
 % } else {
