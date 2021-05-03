@@ -1,14 +1,11 @@
 #!/bin/bash
 
 conf=/etc/zentyal/stubs/dns/named.conf.local.mas
-apparmor=/etc/zentyal/stubs/dns/apparmor-named.local.mas
 
 key=/etc/bind/rndc.key
 key_id=$(grep "^key\b" $key | awk '{print $2}' | tr -d \")
 acme_host_name=_acme-challenge
-domain=$(dnsdomainname)
 
 sed -i -e "s/{{DNS_SECONDARY_SERVER}}/${DNS_SECONDARY_SERVER}/g" $conf
 sed -i -e "s/{{KEY_ID}}/${key_id}/g" $conf
 sed -i -e "s/{{ACME_HOST_NAME}}/${acme_host_name}/g" $conf
-sed -i -e "s/{{DOMAIN}}/${domain}/g" $apparmor
