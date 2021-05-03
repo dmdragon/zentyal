@@ -132,7 +132,7 @@ view "<% $src %>" {
         file "<% $confDir %>/db.<% $dom->{'name'} %>-<% $src %>";
 %               }
 %           }
-%           if ($dom->{dynamic} or $letsencrypt) {
+%           if ($dom->{dynamic} or $letsencrypt and $src eq 'external') {
         update-policy {
 %               if ($dom->{dynamic}) {
             // The only allowed dynamic updates are A records
@@ -140,7 +140,7 @@ view "<% $src %>" {
             // Grant from localhost
             grant local-ddns zonesub any;
 %               }
-%               if ($letsencrypt) {
+%               if ($letsencrypt and $src eq 'external') {
             grant <% $key_id %> name <% $acme_host_name %>.<% $dom->{'name'} %>. TXT;
 %               }            
         };
