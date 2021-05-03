@@ -116,7 +116,7 @@ http {
         listen <% $port %> ssl;
 
 % if ($letsencrypt) {
-        ssl_certificate <% $letsencryptlivedir %>><% $domain %>/fullchain.pem;
+        ssl_certificate <% $letsencryptlivedir %><% $domain %>/fullchain.pem;
         ssl_certificate_key <% $letsencryptlivedir %><% $domain %>/privkey.pem;
 % } else {
         ssl_certificate <% $zentyalconfdir %>ssl/ssl.pem;
