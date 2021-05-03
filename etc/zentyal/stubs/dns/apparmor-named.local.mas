@@ -30,3 +30,4 @@
 
 # allow dns updates for acme dns-01 challenge
 /etc/bind/db.{{DOMAIN}}-external.jnl rw,
+/etc/bind/tmp-?????????? rw,
