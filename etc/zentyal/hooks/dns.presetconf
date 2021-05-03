@@ -11,4 +11,4 @@ domain=$(dnsdomainname)
 sed -i -e "s/{{DNS_SECONDARY_SERVER}}/${DNS_SECONDARY_SERVER}/g" $conf
 sed -i -e "s/{{KEY_ID}}/${key_id}/g" $conf
 sed -i -e "s/{{ACME_HOST_NAME}}/${acme_host_name}/g" $conf
-sed -i -e "s/{{DOMAIN}}/${domain}/g" $apparmor 
+sed -i -e "s/{{DOMAIN}}/${domain}/g" $apparmor
