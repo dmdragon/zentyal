@@ -1,0 +1,9 @@
+#!/bin/bash
+
+conf=/etc/zentyal/stubs/mail/dovecot.conf.mas
+
+domain=$(dnsdomainname)
+
+sed -i -e "s/{{DOMAIN}}/${domain}/g" $conf
+
+exit 0
