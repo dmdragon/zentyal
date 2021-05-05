@@ -99,7 +99,7 @@ view "<% $src %>" {
         file "/etc/bind/db.255";
     };
 
-%   if (defined $sambaZones and scalar @{$sambaZones}) {
+%   if ($src eq 'internal' and defined $sambaZones and scalar @{$sambaZones}) {
     dlz "AD DNS Zone" {
         database "dlopen /usr/lib/x86_64-linux-gnu/samba/bind9/dlz_bind9_11.so";
     };
@@ -107,7 +107,7 @@ view "<% $src %>" {
 
 %   foreach my $dom (@domains) {
 %       if ($dom->{name} !~ /${suffix}$/) {
-%           next if (defined $sambaZones and
+%           next if ($src eq 'internal' and defined $sambaZones and
 %                lc ($dom->{name}) eq any @{$sambaZones});
     zone "<% $dom->{name} %>." IN {
         type master;
