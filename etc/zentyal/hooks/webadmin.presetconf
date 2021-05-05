@@ -5,3 +5,5 @@ nginx=/etc/zentyal/stubs/core/nginx.conf.mas
 domain=$(dnsdomainname)
 
 sed -i -e "s/{{DOMAIN}}/${domain}/g" $nginx
+
+exit 0

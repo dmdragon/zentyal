@@ -2,3 +2,5 @@
 
 conf=/etc/zentyal/stubs/dns/named.conf.local.mas
 sed -i -e "s/{{DNS_SECONDARY_SERVER}}/${DNS_SECONDARY_SERVER}/g" $conf
+
+exit 0
