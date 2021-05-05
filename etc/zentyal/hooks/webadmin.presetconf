@@ -1,9 +1,9 @@
 #!/bin/bash
 
-nginx=/etc/zentyal/stubs/core/nginx.conf.mas
+conf=/etc/zentyal/stubs/core/nginx.conf.mas
 
 domain=$(dnsdomainname)
 
-sed -i -e "s/{{DOMAIN}}/${domain}/g" $nginx
+sed -i -e "s/{{DOMAIN}}/${domain}/g" $conf
 
 exit 0
