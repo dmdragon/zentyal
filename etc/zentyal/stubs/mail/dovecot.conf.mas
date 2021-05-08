@@ -101,7 +101,7 @@ log_timestamp = "%Y-%m-%d %H:%M:%S "
 
 ssl = yes
 % if ($letsencrypt) {
-ssl_cert =<<% $letsencryptlivedir %><% $domain %>/fullchain.pem
+ssl_cert =<<% $letsencryptlivedir %><% $domain %>/cert.pem
 ssl_key =<<% $letsencryptlivedir %><% $domain %>/privkey.pem
 % } else {
 ssl_cert =</etc/dovecot/private/dovecot.pem
