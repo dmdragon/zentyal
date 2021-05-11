@@ -236,6 +236,23 @@ plugin {
   sieve_dir     = <% $mailboxesDir %>/%Ld/%Ln
 }
 
+##
+## Local delivery settings
+##
+service stats {
+  unix_listener stats-reader {
+    user = dovecot
+    group = dovecot
+    mode = 0660
+  }
+
+  unix_listener stats-writer {
+    user = dovecot
+    group = dovecot
+    mode = 0660
+  }
+}
+
 !include_try /etc/dovecot/extra.conf
 
 <%def .imap>
