@@ -241,15 +241,15 @@ plugin {
 ##
 service stats {
   unix_listener stats-reader {
-    user = dovecot
-    group = dovecot
+    group = postfix
     mode = 0660
+    user = postfix
   }
 
   unix_listener stats-writer {
-    user = dovecot
-    group = dovecot
+    group = postfix
     mode = 0660
+    user = postfix
   }
 }
 
