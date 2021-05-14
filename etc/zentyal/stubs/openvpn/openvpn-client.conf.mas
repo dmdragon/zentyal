@@ -154,16 +154,16 @@ cipher AES-256-CBC
 # Enable compression on the VPN link.
 # If you enable it here, you must also
 # enable it in the client config file.
-<% if ($compression) { %>
+% if ($compression) {
 comp-lzo
-<% } else { %>
+% } else {
 #
 # Quoted from OpenVPN 2.5 manual
 #   Compression is generally not recommended.
 #   VPN tunnels which uses compression are
 #   suspectible to the VORALCE attack vector.
-# comp-lzo
-<% } %>
+;comp-lzo
+% }
 
 auth-nocache
 
