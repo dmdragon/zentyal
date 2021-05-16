@@ -1,52 +1,53 @@
 #!/bin/bash
 
 ### NAME
-###        release.sh - copy a file from the repository
+###        release.sh - copy a file from the GitHub
 ###
 ### SYNOPSIS
-###        release.sh <repository> <relative path> [<target_directory>]
+###        release.sh <user> <repo> <branch> <relative path> [<target_directory>]
 ###
 ### DESCRIPTION
 ###        Clone from the git repository and copy a specified file in it to path.
 ###
 ###        Use sudo to copy with administrative privileges.
 
+provider=github
+status=0
+
 usage() {
-    echo "Usage: $0 <repository> <relative path> [<target_directory>]" 1>&2
-    exit 1
+    echo "Usage: $0 <user> <repo> <branch> <relative path> [<target_directory>]" 1>&2
 }
 
 out_error() {
-    echo
-    echo ERROR: $*
-    echo
+    # display in red text.
+    echo -e "\e[0;91m"ERROR: $*"\e[0m"
+    status=1
 }
 
-if [ $# -eq 2 ] || [ $# -eq 3 ] && [ $(basename $0) != $(basename $2) ] ; then
-    repo=$1
-    file=$2
-    root=$3
-    if [ $# -eq 2 ]; then root=/; fi
+if [ $# -eq 4 ] || [ $# -eq 5 ] && [ $(basename $0) != $(basename $4) ] ; then
+    user=$1
+    repo=$2
+    branch=$3
+    file=$4
+    root=$5
+    [ $# -eq 4 ] && root=/
+    [ $provider = github ] && url=https://github.com/$user/$repo/archive/refs/heads/$branch.tar.gz
     fullpath=$root$file
     temp_dir=$(mktemp -d)
     if [ -d $temp_dir ]; then
         pushd $temp_dir > /dev/null 2>&1
-        git clone -q $repo
-        cd $(basename $repo .git)
+        curl -Ls $url | tar -zx
+        cd $repo-$branch
         if [ -f $file ]; then
-            bak=~/$(basename ${file}).bak
-            if [ -f $fullpath ]; then
-                cp $fullpath $bak
-            fi
+            bak=~/$(basename $file).bak
+            [ -f $fullpath ] && cp $fullpath $bak
             if [ -f $fullpath ] && [ -f $bak ] || [ ! -f $fullpath ]; then
-                sudo mkdir -p $(dirname ${fullpath})
+                sudo mkdir -p $(dirname $fullpath)
                 sudo cp $file $fullpath
             elif [ ! -f $bak ]; then
                 out_error No backup exists.
             fi
-            if [ ! -f $fullpath ]; then
-                out_error Could not copy ${fullpath}.
-            fi
+            [ ! -f $fullpath ] && out_error Could not copy $fullpath.
         else
             out_error No $file exists.
         fi
@@ -61,3 +62,4 @@ else
     out_error Incorrect arguments.
     usage
 fi
+exit status
