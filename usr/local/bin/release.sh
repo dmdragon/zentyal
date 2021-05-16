@@ -1,13 +1,14 @@
 #!/bin/bash
 
 ### NAME
-###        release.sh - copy a file from the GitHub
+###        release.sh - download a file from the git repository
 ###
 ### SYNOPSIS
 ###        release.sh <user> <repo> <branch> <relative path> [<target_directory>]
 ###
 ### DESCRIPTION
-###        Clone from the git repository and copy a specified file in it to path.
+###        Download a file from the git repository. The repository is specified by
+###        user name, repository name, and branch name.
 ###
 ###        Use sudo to copy with administrative privileges.
 
