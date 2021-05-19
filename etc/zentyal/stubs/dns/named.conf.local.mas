@@ -110,7 +110,7 @@ view "<% $src %>" {
 %           lc ($dom->{name}) eq any @{$sambaZones});
 %       if (($src eq 'internal' and $dom->{name} !~ /${suffix}$/) or
 %           ($src eq 'external' and $dom->{name} =~ /${suffix}$/)) {
-%           $dom_name = $dom->{name};
+%           my $dom_name = $dom->{name};
 %           $dom_name =~ s/${suffix}$//;
     zone "<% $dom_name %>." IN {
         type master;
