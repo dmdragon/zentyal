@@ -63,4 +63,4 @@ else
     out_error Incorrect arguments.
     usage
 fi
-exit status
+exit $status
