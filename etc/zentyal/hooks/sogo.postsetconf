@@ -4,17 +4,22 @@ provider=letsencrypt
 port=32443
 src=/etc/apache2/sites-available/default-ssl.conf
 
-dst=$(dirname $src)/$provider-$port-ssl.conf
-cp $src $dst
+if [ -r $src ]; then
+    dst=$(dirname $src)/$provider-$port-ssl.conf
+    cp $src $dst
 
-cert=/etc/letsencrypt/live/$(dnsdomainname)/fullchain.pem
-key=/etc/letsencrypt/live/$(dnsdomainname)/privkey.pem
-sed -i -e "s/<VirtualHost _default_:443>/<VirtualHost _default_:$port>/" $dst
-sed -i -r -e "s|^(\s*[^#]\s*SSLCertificateFile)\s*\S*|\1 $cert|" $dst
-sed -i -r -e "s|^(\s*[^#]\s*SSLCertificateKeyFile)\s*\S*|\1 $key|" $dst
+    cert=/etc/letsencrypt/live/$(dnsdomainname)/fullchain.pem
+    key=/etc/letsencrypt/live/$(dnsdomainname)/privkey.pem
 
-a2dissite -q $(basename $src)
-a2ensite -q $(basename $dst)
-systemctl -q reload apache2
+    if [ -w $dst ] && [ -e $cert ] && [ -e $key ]; then
+        sed -i -e "s/<VirtualHost _default_:443>/<VirtualHost _default_:$port>/" $dst
+        sed -i -r -e "s|^(\s*[^#]\s*SSLCertificateFile)\s*\S*|\1 $cert|" $dst
+        sed -i -r -e "s|^(\s*[^#]\s*SSLCertificateKeyFile)\s*\S*|\1 $key|" $dst
+
+        a2dissite -q $(basename $src)
+        a2ensite -q $(basename $dst)
+        systemctl -q reload apache2
+    fi
+fi
 
 exit 0
