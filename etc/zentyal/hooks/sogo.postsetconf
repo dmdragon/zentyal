@@ -1,0 +1,19 @@
+#!/bin/bash
+
+provider=letsencrypt
+port=12443
+src=/etc/apache2/sites-available/default-ssl.conf
+
+dst=$(dirname $src)/$provider-ssl.conf
+cp $src $dst
+
+cert=/etc/letsencript/live/$(dnsdomainname)/fullchain.pem
+key=/etc/letsencript/live/$(dnsdomainname)/privkey.pem
+sed -ire "s|^(\s*[^#]\s*SSLCertificateFile)\s*\S*|\1 $cert|"  $dst
+sed -ire "s|^(\s*[^#]\s*SSLCertificateKeyFile)\s*\S*|\1 $key|"  $dst
+
+a2dissite -q $(basename $src)
+a2ensite -q $(basename $dst)
+systemctl -q reload apache2
+
+exit 0
