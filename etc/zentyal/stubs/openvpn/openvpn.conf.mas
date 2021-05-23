@@ -44,6 +44,11 @@ if ($proto eq 'udp') {
 
 # Whether to use compression or not
 my $compression = 0; # false
+
+# Whether to share port or not
+my $port_share = 1; # true
+my $shared_host = '127.0.0.1';
+my $shared_port = '32443';
 </%init>
 
 # EBox OpenVPN 2.0 config file for  server <% $name %>
@@ -60,6 +65,10 @@ my $compression = 0; # false
 # TCP or UDP server?
 <& valueEntry, entry => 'proto', value => $proto &>
 
+% if ($port_share) {
+# When run in TCP mode, proxy incoming HTTPS
+port-share <% $shared_host %> <% $shared_port %>
+% }
 
 # virtual device
 <& valueEntry, entry => 'dev', value => $dev &>
