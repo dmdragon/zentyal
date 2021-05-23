@@ -81,13 +81,9 @@ ProxyPass /SOGo http://127.0.0.1:20000/SOGo retry=0
 ## and do not forget to enable the headers module
 <IfModule headers_module>
   RequestHeader set "x-webobjects-server-port" "<% $port %>"
+  SetEnvIf Host (.*) HTTP_HOST=$1
   RequestHeader set "x-webobjects-server-name" "%{HTTP_HOST}e" env=HTTP_HOST
-
-  # Modified by Zentyal
-  # RequestHeader set "x-webobjects-server-url" "https://%{HTTP_HOST}e" env=HTTP_HOST
-  RequestHeader set "x-webobjects-server-url" "https://%{REQUEST_HOST}e:<% $port %>"
-  SetEnvIf Host "(.*):?" REQUEST_HOST=$1
-
+  RequestHeader set "x-webobjects-server-url" "https://%{HTTP_HOST}e" env=HTTP_HOST
 
 ## When using proxy-side autentication, you need to uncomment and
 ## adjust the following line:
