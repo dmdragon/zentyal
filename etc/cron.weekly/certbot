@@ -1,3 +1,5 @@
 #!/bin/bash
 
+# Renewing certificates
+
 /snap/bin/certbot renew -q
