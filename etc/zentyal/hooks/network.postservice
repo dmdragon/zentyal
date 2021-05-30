@@ -1,7 +1,29 @@
 #!/bin/sh
 
-# add route for azure vm
-ip route add 168.63.129.16/32   via 10.0.0.1 dev eth0
-ip route add 169.254.169.254/32 via 10.0.0.1 dev eth0
+# Configure static routes for Azure VM
+#
+# Configure static routes to 168.63.129.16 and 169.254.169.254, which are
+# configured by default in Azure VM. These static routes are mandatory for
+# Azure VMs.
+#
+# In Zentyal, the default network configuration package, netplan.io, is
+# removed when the network module is installed. netplan.io is used to
+# configure static routes to 168.63.129.16 and 169.254.169.254 in Ubuntu
+# for Azure VM. Since Ubuntu in Azure VM uses netplan.io to configure
+# these static routes, after installing the network module and rebooting,
+# these static routes will be lost.
+#
+# So we will configure static routes to 168.63.129.16 and 169.254.169.254
+# in the network module hook.
+
+default=$(ip route list table all | grep -m 1 ^default)
+if [ -n "$default" ]; then
+    via=$(echo $default | cut -d" " -f3)
+    dev=$(echo $default | cut -d" " -f5)
+    if [ -n $via ] && [ -n $dev ]; then
+        ip route add 168.63.129.16/32 via $via dev $dev
+        ip route add 169.254.169.254/32 via $via dev $dev
+    fi
+fi
 
 exit 0

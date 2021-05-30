@@ -1,6 +1,18 @@
 #!/bin/bash
 
+# Set the IP address of the secondary DNS server in the Zentyal stub dns/named.conf.local.mas.
+#
+# The IP address of the secondary DNS server should be set in the "DNS_SECONDARY_SERVER"
+# environment variable. If there are multiple servers, they should be separated by commas.
+#
+# In the stub, replace the IP address of the secondary DNS server with a string
+# "{{DNS_SECONDARY_SERVER}}", enclosed in double curly brackets with the name of
+# the environment variable.
+
+secondary=${DNS_SECONDARY_SERVER}
 conf=/etc/zentyal/stubs/dns/named.conf.local.mas
-sed -i -e "s/{{DNS_SECONDARY_SERVER}}/${DNS_SECONDARY_SERVER}/g" $conf
+if [ -n $secondary ] && [ -w $conf ]; then
+  sed -i -e "s/{{DNS_SECONDARY_SERVER}}/$secondary/g" $conf
+fi
 
 exit 0

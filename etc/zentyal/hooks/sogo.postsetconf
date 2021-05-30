@@ -1,6 +1,25 @@
 #!/bin/bash
 
+# Changing the settings of SOGo Webmail
+#
+# Change the listening port of SOGo Webmail and set the server certificate
+# from Let's Encrypt.
+#
+# Change the port of SOGo Webmail from 443/TCP to share the 443/TCP
+# listening port between SOGo Webmail and OpenVPN. Use OpenVPN's port
+# sharing feature to forward non-OpenVPN protocol packets arriving at
+# 443/TCP to the changed port of SOGo Webmail on the local host.
+#
+# Since SOGo Webmail uses Apache 2, change the port number for SSL in
+# ports.conf. Also, copy the default configuration file for SSL, default-ssl.conf,
+# and put the name of the certificate provider and the port number after
+# the change in the file name. Change the port number and the paths of
+# the certificate and private key in the copied configuration file.
+# Then disable the default configuration file and enable the configuration
+# file created.
+
 provider=letsencrypt
+letsencryptlivedir=/etc/letsencrypt/live/
 port=32443
 ports_conf=/etc/apache2/ports.conf
 src=/etc/apache2/sites-available/default-ssl.conf
@@ -9,8 +28,8 @@ if [ -r $src ]; then
     dst=$(dirname $src)/$provider-$port-ssl.conf
     cp $src $dst
 
-    cert=/etc/letsencrypt/live/$(dnsdomainname)/fullchain.pem
-    key=/etc/letsencrypt/live/$(dnsdomainname)/privkey.pem
+    cert=$letsencryptlivedir$(dnsdomainname)/fullchain.pem
+    key=$letsencryptlivedir$(dnsdomainname)/privkey.pem
 
     if [ -w $ports_conf ] && [ -w $dst ] && [ -e $cert ] && [ -e $key ]; then
         sed -i -e "s/Listen 443/Listen $port/g" $ports_conf

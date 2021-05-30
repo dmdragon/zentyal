@@ -1,9 +1,17 @@
 #!/bin/bash
 
-conf=/etc/zentyal/stubs/mail/dovecot.conf.mas
+# Set the domain name
+#
+# In the Zentyal stub mail/dovecot.conf.mas, replace the string "{{DOMAIN}}"
+# enclosed in double curly brackets with the result of the dnsdomainname command.
+#
+# In the stub, the domain name appears as the path to the server certificate
+# and its private key.
 
 domain=$(dnsdomainname)
-
-sed -i -e "s/{{DOMAIN}}/${domain}/g" $conf
+conf=/etc/zentyal/stubs/mail/dovecot.conf.mas
+if [ -n $domain ] && [ -w $conf ]; then
+    sed -i -e "s/{{DOMAIN}}/$domain/g" $conf
+fi
 
 exit 0

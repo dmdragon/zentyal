@@ -1,6 +1,16 @@
 #!/bin/bash
 
+# Modify the domain name in the zone file.
+#
+# In Zentyal's DNS, create a domain for external use and add "-external" to
+# the end. At this time, the actual domain name does not have the "-external",
+# so in the zone file, remove the "-external". 
+# In the zone file, the domain name is set as the value of "$ORIGIN".
+
 domain=$(dnsdomainname)
-sed -i -e "s/${domain}-external/${domain}/g" /etc/bind/db.${domain}-external
+zonefile=/etc/bind/db.$domain-external
+if [ -n $domain ] && [ -w $zonefile ]; then
+    sed -i -e "s/$domain-external/$domain/g" $zonefile
+fi
 
 exit 0
