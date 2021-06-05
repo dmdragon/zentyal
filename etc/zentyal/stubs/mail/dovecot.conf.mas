@@ -24,8 +24,8 @@ if ($protocols{managesieve}) {
     push @protocolsReduced, 'sieve';
 }
 
-# Whether to redirect to a virtual user.
-my $to_virtual = 1; # true
+# Whether to use virtual users
+my $virtual = 1; # true
 
 # Settings for Let's Encrypt
 # If 1 (true), use the certificate of Let's Encrpyt.
@@ -242,7 +242,7 @@ plugin {
   sieve_dir     = <% $mailboxesDir %>/%Ld/%Ln
 }
 
-% if ($to_virtual) {
+% if ($virtual) {
 ##
 ## Make Zentyal (ebox:ebox) a listener of the stats service.
 ##
