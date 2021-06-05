@@ -24,6 +24,9 @@ if ($protocols{managesieve}) {
     push @protocolsReduced, 'sieve';
 }
 
+# Whether to redirect to a virtual user.
+my $to_virtual = 1; # true
+
 # Settings for Let's Encrypt
 # If 1 (true), use the certificate of Let's Encrpyt.
 my $letsencrypt = 1;
@@ -239,22 +242,23 @@ plugin {
   sieve_dir     = <% $mailboxesDir %>/%Ld/%Ln
 }
 
+% if ($to_virtual) {
 ##
-## Local delivery settings
+## Make Zentyal (ebox:ebox) a listener of the stats service.
 ##
 service stats {
   unix_listener stats-reader {
-    group = postfix
+    group = ebox
     mode = 0660
-    user = postfix
+    user = ebox
   }
-
   unix_listener stats-writer {
-    group = postfix
+    group = ebox
     mode = 0660
-    user = postfix
+    user = ebox
   }
 }
+%　}
 
 !include_try /etc/dovecot/extra.conf
 
