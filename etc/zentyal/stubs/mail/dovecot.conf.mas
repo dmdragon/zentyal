@@ -258,7 +258,7 @@ service stats {
     user = ebox
   }
 }
-%　}
+% }
 
 !include_try /etc/dovecot/extra.conf
 
