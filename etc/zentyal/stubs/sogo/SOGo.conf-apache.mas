@@ -80,6 +80,9 @@ ProxyPass /SOGo http://127.0.0.1:20000/SOGo retry=0
 ## adjust the following to your configuration
 ## and do not forget to enable the headers module
 <IfModule headers_module>
+  # In order to make it work correctly when the port number is changed,
+  # instead of the modification by Zentyal, using the configuration that
+  # SOGo official publishes on GitHub.
   RequestHeader set "x-webobjects-server-port" "<% $port %>"
   SetEnvIf Host (.*) HTTP_HOST=$1
   RequestHeader set "x-webobjects-server-name" "%{HTTP_HOST}e" env=HTTP_HOST

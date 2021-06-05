@@ -23,9 +23,12 @@ Parameters:
 <%init>
 my %sectionrestrictions = ();
 
-# for Let's Encrypt
-my $letsencrypt = 1; #true
+# Settings for Let's Encrypt
+# If 1 (true), use the certificate of Let's Encrpyt.
+my $letsencrypt = 1
+# Root directory of Let's Encrypt certificates.
 my $letsencryptlivedir = '/etc/letsencrypt/live/';
+# Domain name (use the hook to replace).
 my $domain = '{{DOMAIN}}';
 </%init>
 <%perl>

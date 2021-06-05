@@ -1,3 +1,9 @@
+// By default in zentyal, this file contains the root hints and
+// the forward and reverse localhost and broadcast zone statements.
+// However, the zone statements have been moved to named.conf.local because
+// "If any explicit view statements are present, all zone statements
+//  must occur inside view statements (quoted from bind 9 documentation)".
+
 include "/etc/bind/named.conf.options";
 include "/etc/bind/keys";
 include "/etc/bind/named.conf.local";
