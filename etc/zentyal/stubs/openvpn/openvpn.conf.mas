@@ -68,7 +68,7 @@ my $shared_port = '32443';
 # TCP or UDP server?
 <& valueEntry, entry => 'proto', value => $proto &>
 
-% if (<& valueEntry, entry => 'proto', value => $proto &>　eq 'tcp' && $port_share) {
+% if (<& valueEntry, entry => 'proto', value => $proto &> eq 'tcp' && $port_share) {
 # When run in TCP mode, proxy incoming HTTPS
 port-share <% $shared_host %> <% $shared_port %>
 % }
