@@ -1,5 +1,10 @@
 #!/usr/bin/perl
 
+# acme_manual_cleanup.pl
+#
+# Delete the TXT record _acme-challenge for the DNS-01 challenge.
+# The target is an external domain whose name ends with -external.
+
 use strict;
 use warnings;
 
