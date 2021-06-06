@@ -2,8 +2,11 @@
     $activesync => 0
 </%args>
 <%init>
-# Port number used by SOGo to share 443/TCP with OpenVPN.
-my $port = 32443;
+# Settings for sharing a port with OpenVPN
+# If 1 (true), the port will be shared with OpenVPN.
+my $port_share = 1;
+# Own port number.
+my $server_port = '32443';
 </%init>
 Alias /SOGo.woa/WebServerResources/ \
       /usr/lib/GNUstep/SOGo/WebServerResources/
@@ -83,7 +86,11 @@ ProxyPass /SOGo http://127.0.0.1:20000/SOGo retry=0
   # In order to make it work correctly when the port number is changed,
   # instead of the modification by Zentyal, using the configuration that
   # SOGo official publishes on GitHub.
-  RequestHeader set "x-webobjects-server-port" "<% $port %>"
+% if ($port_share) {
+  RequestHeader set "x-webobjects-server-port" "<% $server_port %>"
+% } else {
+  RequestHeader set "x-webobjects-server-port" "443"
+% }
   SetEnvIf Host (.*) HTTP_HOST=$1
   RequestHeader set "x-webobjects-server-name" "%{HTTP_HOST}e" env=HTTP_HOST
   RequestHeader set "x-webobjects-server-url" "https://%{HTTP_HOST}e" env=HTTP_HOST
