@@ -152,8 +152,8 @@ persist-tun
 cipher AES-256-CBC
 
 # Enable compression on the VPN link.
-# If you enable it here, you must also
-# enable it in the client config file.
+# Don't enable this unless it is also
+# enabled in the server config file.
 % if ($compression) {
 comp-lzo
 % } else {
