@@ -12,16 +12,15 @@ declare -a addresses=$(ip address | grep inet | awk '{print $2}' | cut -d/ -f1)
 
 . $ipdecimal
 for address in ${addresses[@]}; do
-    address=192.160.160.2
+    address=192.168.160.2
     if $(ipwith $vpn_network_address $vpn_netmask $address) && [ $address != $(cat $webroot/index.html) ]; then
-        echo ok!
-        # echo $address > $webroot/index.html
-        # pushd $webroot
-        # git add index.html
-        # git commit -m "Change IP Address."
-        # git push origin main
-        # popd
-        # break
+        echo $address > $webroot/index.html
+        pushd $webroot
+        git add index.html
+        git commit -m "Change IP Address."
+        git push origin main
+        popd
+        break
     fi
 done
 
