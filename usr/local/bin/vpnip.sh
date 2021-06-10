@@ -19,17 +19,18 @@ for address in ${addresses[@]}; do
     echo $address
     echo $(cat $webroot/index.html)
     ipwith $vpn_network_address $vpn_netmask $address
-    if [ $? ] && [ $address != $(cat $webroot/index.html) ]; then
+    echo $?
+    # if [ $? ] && [ $address != $(cat $webroot/index.html) ]; then
     # if [ $? ]; then
-        echo ok!
+        # echo ok!
         # echo $address > $webroot/index.html
         # pushd $webroot
         # git add index.html
         # git commit -m "Change IP Address."
         # git push origin main
         # popd
-        break
-    fi
+        # break
+    # fi
 done
 
 exit 0
