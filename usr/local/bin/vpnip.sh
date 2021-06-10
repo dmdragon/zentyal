@@ -19,7 +19,7 @@ for address in ${addresses[@]}; do
     echo $address
     echo $(cat $webroot/index.html)
     # if [ $address != $(cat $webroot/index.html) ] && [ $(ipwith $vpn_network_address $vpn_netmask $address) ]; then
-    if [ $(ipwith $vpn_network_address $vpn_netmask $address) ]; then
+    if [ 0 -eq $(ipwith $vpn_network_address $vpn_netmask $address) ]; then
         echo ok!
         # echo $address > $webroot/index.html
         # pushd $webroot
