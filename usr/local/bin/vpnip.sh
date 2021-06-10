@@ -18,8 +18,7 @@ declare -a addresses=$(ip address | grep inet | awk '{print $2}' | cut -d/ -f1)
 for address in ${addresses[@]}; do
     echo $address
     echo $(cat $webroot/index.html)
-    # if [ $? ] && [ $address != $(cat $webroot/index.html) ]; then
-    if $(ipwith $vpn_network_address $vpn_netmask $address); then
+    if $(ipwith $vpn_network_address $vpn_netmask $address) && [ $address != $(cat $webroot/index.html) ]; then
         echo ok!
         # echo $address > $webroot/index.html
         # pushd $webroot
