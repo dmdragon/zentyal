@@ -10,6 +10,9 @@ vpn_network=$(grep ^server $openvpn_conf)
 vpn_network_address=$(echo $vpn_network | cut -d" " -f2)
 vpn_netmask=$(echo $vpn_network | cut -d" " -f3)
 
+echo $vpn_network_address
+echo $vpn_netmask
+
 declare -a addresses=$(ip address | grep inet | awk '{print $2}' | cut -d/ -f1)
 
 for address in ${addresses[@]}; do
