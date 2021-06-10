@@ -15,7 +15,8 @@ declare -a addresses=$(ip address | grep inet | awk '{print $2}' | cut -d/ -f1)
 for address in ${addresses[@]}; do
     echo $address
     echo $(cat $webroot/index.html)
-    if [ $address ne $(cat $webroot/index.html) ] && [ ipwith $vpn_network_address $vpn_netmask $address ]; then
+    echo $(ipwith $vpn_network_address $vpn_netmask $address)
+    if [ $address -ne $(cat $webroot/index.html) ] && [ ipwith $vpn_network_address $vpn_netmask $address ]; then
         # echo $address > $webroot/index.html
         # pushd $webroot
         # git add index.html
