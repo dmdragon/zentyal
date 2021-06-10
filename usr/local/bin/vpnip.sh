@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ipdecimal=/usr/local/bin/ipdecimal.sh
+ipdecimal=/usr/local/lib/ipdecimal.sh
 openvpn_conf=/etc/openvpn/dmdragon.d/dmdragon.conf
 webroot=/home/azureuser/my-first-static-web-app
 
