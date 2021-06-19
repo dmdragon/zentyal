@@ -21,11 +21,11 @@ declare -a addresses=$(ip address | grep inet | awk '{print $2}' | cut -d/ -f1)
 for address in ${addresses[@]}; do
     if $(ipwith $vpn_network_address $vpn_netmask $address) && [ "$address" != "$current" ]; then
         echo $address > $webroot/index.html
-        pushd $webroot　> /dev/null 2>&1
+        pushd $webroot > /dev/null 2>&1
         git add index.html
         git commit -qm "Change IP Address."
         git push -q origin main
-        popd　> /dev/null 2>&1
+        popd > /dev/null 2>&1
         break
     fi
 done
