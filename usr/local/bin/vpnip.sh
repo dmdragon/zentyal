@@ -42,6 +42,7 @@ current=""
 [ -w "$index_path" ] && current=$(cat "$index_path")
 
 openvpn_conf=$(ps -C openvpn -o args= | head -1 | grep -o "\-\-config [^ ]*" | cut -d" " -f2)
+[ -n "$openvpn_conf" ] || exit 1
 vpn_network=$(grep ^server $openvpn_conf)
 [ -n "$vpn_network" ] || exit 1
 vpn_network_address=$(echo $vpn_network | cut -d" " -f2)
