@@ -16,8 +16,8 @@
 ###        This GitHub repository is the repository for Azure Static Web Apps, and when pushed,
 ###        it will be published as a website by GitHub Action.
 ###
-###        The OpenVPN server configuration can only be read by root privileges, so use the sudo command.
-###        The user to be executed should have the appropriate sudo settings in advance.
+###        The OpenVPN server configuration can only be read by root privileges, so this script
+###        needs to be run as root user.
 ###
 ###        The following IP calculation library is used to calculate whether an IP address is included
 ###        in the IP address range.
@@ -42,7 +42,7 @@ current=""
 [ -w "$index_path" ] && current=$(cat "$index_path")
 
 openvpn_conf=$(ps -C openvpn -o args= | head -1 | grep -o "\-\-config [^ ]*" | cut -d" " -f2)
-vpn_network=$(sudo grep ^server $openvpn_conf)
+vpn_network=$(grep ^server $openvpn_conf)
 [ -n "$vpn_network" ] || exit 1
 vpn_network_address=$(echo $vpn_network | cut -d" " -f2)
 vpn_netmask=$(echo $vpn_network | cut -d" " -f3)
