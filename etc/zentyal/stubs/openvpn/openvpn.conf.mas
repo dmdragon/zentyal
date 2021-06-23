@@ -52,6 +52,9 @@ my $port_share = 1;
 my $server_host = '127.0.0.1';
 # Port number of the web server.
 my $server_port = '32443';
+
+my $up_script = 1;
+my $script_path = '/etc/openvpn/up.sh';
 </%init>
 
 # EBox OpenVPN 2.0 config file for  server <% $name %>
@@ -196,6 +199,11 @@ verb 3
 # sequential messages of the same message
 # category will be output to the log.
 ;mute 20
+
+% if ($up_script) {
+script-security 2
+up <% $script_path %>
+% }
 
 % if ($redirectGw) {
 push "redirect-gateway def1"
