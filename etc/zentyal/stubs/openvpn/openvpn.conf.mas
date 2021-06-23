@@ -57,7 +57,7 @@ my $server_port = '32443';
 # If 1 (true), execute the connection script.
 my $up_script = 1;
 # Path of the connection script.
-my $script_path = '/etc/openvpn/up.sh';
+my $script_path = '/usr/local/bin/vpnip.sh';
 </%init>
 
 # EBox OpenVPN 2.0 config file for  server <% $name %>
