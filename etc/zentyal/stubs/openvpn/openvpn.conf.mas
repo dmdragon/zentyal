@@ -53,7 +53,10 @@ my $server_host = '127.0.0.1';
 # Port number of the web server.
 my $server_port = '32443';
 
+# Settings for the connection script
+# If 1 (true), execute the connection script.
 my $up_script = 1;
+# Path of the connection script.
 my $script_path = '/etc/openvpn/up.sh';
 </%init>
 
@@ -201,7 +204,12 @@ verb 3
 ;mute 20
 
 % if ($up_script) {
+# Allow calling of built-in executables
+# and user-defined scripts.
 script-security 2
+
+# Executed after TCP/UDP socket bind
+# and TUN/TAP open.
 up <% $script_path %>
 % }
 
