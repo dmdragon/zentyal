@@ -34,7 +34,7 @@ ipdecimal=/usr/local/lib/ipdecimal.sh
 [ -r "$ipdecimal" ] || exit 1
 
 # The root directory of the web site
-webroot=$HOME/$name
+webroot=/root/$name
 # Path of the index file
 index_path=$webroot/$index
 
@@ -48,10 +48,8 @@ vpn_network=$(grep ^server $openvpn_conf)
 vpn_network_address=$(echo $vpn_network | cut -d" " -f2)
 vpn_netmask=$(echo $vpn_network | cut -d" " -f3)
 
-declare -a addresses=$(ip address | grep inet | awk '{print $2}' | cut -d/ -f1)
-
 . $ipdecimal
-for address in ${addresses[@]}; do
+for address in $(ip address | grep inet | awk '{print $2}' | cut -d/ -f1); do
     if $(ipwith $vpn_network_address $vpn_netmask $address) && [ "$address" != "$current" ]; then
         echo $address > $index_path
         pushd $webroot > /dev/null 2>&1
