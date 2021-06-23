@@ -25,7 +25,7 @@
 ###
 
 # Repository name
-name=my-first-static-web-app
+name=ip
 # Index file name
 index=index.html
 # IP calculation library
