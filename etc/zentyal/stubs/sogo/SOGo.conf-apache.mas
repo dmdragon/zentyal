@@ -6,7 +6,7 @@
 # If 1 (true), the port will be shared with OpenVPN.
 my $port_share = 1;
 # Own port number.
-my $server_port = '32443';
+my $server_port = '{{SOGO_EXTERNAL_PORT}}';
 </%init>
 Alias /SOGo.woa/WebServerResources/ \
       /usr/lib/GNUstep/SOGo/WebServerResources/

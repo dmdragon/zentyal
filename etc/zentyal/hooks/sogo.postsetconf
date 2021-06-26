@@ -23,6 +23,8 @@ letsencryptlivedir=/etc/letsencrypt/live/
 port=32443
 ports_conf=/etc/apache2/ports.conf
 src=/etc/apache2/sites-available/default-ssl.conf
+sogo_stub=/etc/zentyal/stubs/sogo/SOGo.conf-apache.mas
+openvpn_stub=/etc/zentyal/stubs/openvpn/openvpn.conf.mas
 
 if [ -r $src ]; then
     dst=$(dirname $src)/$provider-$port-ssl.conf
@@ -31,6 +33,7 @@ if [ -r $src ]; then
     cert=$letsencryptlivedir$(dnsdomainname)/fullchain.pem
     key=$letsencryptlivedir$(dnsdomainname)/privkey.pem
 
+    sed -i -e "s/{{SOGO_EXTERNAL_PORT}}/$port/g" $sogo_stub $openvpn_stub
     if [ -w $ports_conf ] && [ -w $dst ] && [ -e $cert ] && [ -e $key ]; then
         sed -i -e "s/Listen 443/Listen $port/g" $ports_conf
         sed -i -e "s/<VirtualHost _default_:443>/<VirtualHost _default_:$port>/" $dst
