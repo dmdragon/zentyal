@@ -2,7 +2,7 @@
 
 # Configuring Domain Name and Let's Encrypt
 #
-# Set the domain name and whether to use Let's Encrypt. in the stub core/nginx.conf.mas 
+# Set the domain name and whether to use Let's Encrypt in the stub core/nginx.conf.mas.
 # Convert the string enclosed in double curly brackets in the stub.
 #
 # Domain name: Replace {{DOMAIN}} with your actual domain name.
