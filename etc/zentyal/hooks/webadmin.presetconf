@@ -17,8 +17,11 @@ cert=$letsencryptlivedir$domain/fullchain.pem
 key=$letsencryptlivedir$domain/privkey.pem
 
 if [ -w $conf ]; then
-    sed -i -e "s/{{LETS_ENCRYPT}}/0/g" $conf
-    [ -e $cert ] && [ -e $key ] && sed -i -e "s/{{LETS_ENCRYPT}}/1/g" $conf
+    if [ -e $cert ] && [ -e $key ]; then
+        sed -i -e "s/{{LETS_ENCRYPT}}/1/g" $conf
+    else
+        sed -i -e "s/{{LETS_ENCRYPT}}/0/g" $conf
+    fi
     [ -n $domain ] && sed -i -e "s/{{DOMAIN}}/$domain/g" $conf
 fi
 
