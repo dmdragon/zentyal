@@ -6,7 +6,7 @@
 # Convert the string enclosed in double curly brackets in the stub.
 #
 # Domain name: Replace {{DOMAIN}} with your actual domain name.
-# Let's Encrypt: replaces the value of {{LETSENCRYPT}} with 1 (true)
+# Let's Encrypt: replaces the value of {{LETS_ENCRYPT}} with 1 (true)
 # if the certificate and key are present, and 0 (false) otherwise.
 
 conf=/etc/zentyal/stubs/core/nginx.conf.mas
