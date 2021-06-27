@@ -29,7 +29,7 @@ my $virtual = 1; # true
 
 # Settings for Let's Encrypt
 # If 1 (true), use the certificate of Let's Encrpyt.
-my $letsencrypt = 1;
+my $letsencrypt = {{LETS_ENCRYPT}};
 # Root directory of Let's Encrypt certificates.
 my $letsencryptlivedir = '/etc/letsencrypt/live/';
 # Domain name (use the hook to replace).

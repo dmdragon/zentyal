@@ -1,17 +1,28 @@
 #!/bin/bash
 
-# Set the domain name
+# Configuring Domain Name and Let's Encrypt
 #
-# In the Zentyal stub mail/dovecot.conf.mas, replace the string "{{DOMAIN}}"
-# enclosed in double curly brackets with the result of the dnsdomainname command.
+# Set the domain name and whether to use Let's Encrypt in the stub mail/dovecot.conf.mas.
+# Convert the string enclosed in double curly brackets in the stub.
 #
-# In the stub, the domain name appears as the path to the server certificate
-# and its private key.
+# Domain name: Replace {{DOMAIN}} with your actual domain name.
+# Let's Encrypt: replaces the value of {{LETS_ENCRYPT}} with 1 (true)
+# if the certificate and key are present, and 0 (false) otherwise.
+
+conf=/etc/zentyal/stubs/mail/dovecot.conf.mas
+letsencryptlivedir=/etc/letsencrypt/live/
 
 domain=$(dnsdomainname)
-conf=/etc/zentyal/stubs/mail/dovecot.conf.mas
-if [ -n $domain ] && [ -w $conf ]; then
-    sed -i -e "s/{{DOMAIN}}/$domain/g" $conf
+cert=$letsencryptlivedir$domain/fullchain.pem
+key=$letsencryptlivedir$domain/privkey.pem
+
+if [ -w $conf ]; then
+    if [ -e $cert ] && [ -e $key ]; then
+        sed -i -e "s/{{LETS_ENCRYPT}}/1/g" $conf
+    else
+        sed -i -e "s/{{LETS_ENCRYPT}}/0/g" $conf
+    fi
+    [ -n $domain ] && sed -i -e "s/{{DOMAIN}}/$domain/g" $conf
 fi
 
 exit 0
