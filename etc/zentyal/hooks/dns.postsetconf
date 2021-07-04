@@ -6,11 +6,15 @@
 # the end. At this time, the actual domain name does not have the "-external",
 # so in the zone file, remove the "-external". 
 # In the zone file, the domain name is set as the value of "$ORIGIN".
+#
+# If the value of the CNAME record contains dots, the dot will be added to
+# the end of the value.
 
 domain=$(dnsdomainname)
 zonefile=/etc/bind/db.$domain-external
 if [ -n $domain ] && [ -w $zonefile ]; then
     sed -i -e "s/$domain-external/$domain/g" $zonefile
+    sed -i -e "s/ CNAME\( *[a-zA-Z0-9]*\..*\)$/ CNAME\1./g" $zonefile
 fi
 
 exit 0
