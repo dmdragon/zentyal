@@ -14,7 +14,7 @@ domain=$(dnsdomainname)
 zonefile=/etc/bind/db.$domain-external
 if [ -n $domain ] && [ -w $zonefile ]; then
     sed -i -e "s/$domain-external/$domain/g" $zonefile
-    sed -i -e "s/ CNAME\( *[a-zA-Z0-9]*\..*\)$/ CNAME\1./g" $zonefile
+    sed -i -e "s/ CNAME\( *[a-zA-Z0-9]*\..*[a-zA-Z0-9]\)$/ CNAME\1./g" $zonefile
 fi
 
 exit 0
