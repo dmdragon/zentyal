@@ -1,6 +1,5 @@
 #!/bin/bash
 
-###
 ### NAME
 ###        ipdecimal.sh - Converts an IP address and a 32-bit decimal value to each other
 ###
@@ -34,7 +33,6 @@
 ###
 ### SEE ALSO
 ###        https://qiita.com/harasou/items/5c14c335388f70e178f5
-###
 
 # IP address to 32-bit decimal value.
 function ip2decimal(){

@@ -22,7 +22,6 @@
 ###        The following IP calculation library is used to calculate whether an IP address is included
 ###        in the IP address range.
 ###        https://qiita.com/harasou/items/5c14c335388f70e178f5
-###
 
 # Repository name
 name=ip
